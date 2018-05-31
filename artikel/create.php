@@ -30,16 +30,14 @@
             echo json_encode(
                 array(
                     "result"=>"1",
-                    "message"=>"Berhasil tambah data",
-                    "data"=>$data->judul
+                    "message"=>"Berhasil tambah data"
                     )
             );
         }else{
             echo json_encode(
                 array(
                     "result"=>"0",
-                    "message"=>"Gagal tambah data",
-                    "data"=>$data->judul
+                    "message"=>"Gagal tambah data"
                     )
             );
         }
@@ -47,8 +45,7 @@
         echo json_encode(
             array(
                 "result"=>"0",
-                "message"=>"No Data",
-                "data"=>$data->judul
+                "message"=>"No Data"
                 )
         );
     }

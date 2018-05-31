@@ -28,16 +28,14 @@
         echo json_encode(
             array(
                 "result"=>"1",
-                "message"=>"Data berhasil diubah",
-                "res"=> $data->id
+                "message"=>"Data($artikel->id) berhasil diubah"
                 )
         );
 	}else{
         echo json_encode(
             array(
                 "result"=>"0",
-                "message"=>"Gagal ubah user",
-                "res"=> $artikel->res
+                "message"=>"Gagal ubah user"
                 )
         );
     }

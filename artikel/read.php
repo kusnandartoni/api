@@ -18,20 +18,9 @@
     $stmt = $artikel->read();
     $num = $stmt->rowCount();
 
-    // check if more than 0 record found
-    // if($num>0){
-
-        // artikels array
     $artikels_arr=array();
     $artikels_arr["result"]="1";
     $artikels_arr["records"]=array();
-
-
-    // id,
-    // judul,
-    // tanggal,
-    // gambar,
-    // isi,
 
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
         extract($row);
