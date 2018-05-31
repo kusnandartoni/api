@@ -18,25 +18,28 @@ class Artikel{
         $query = "UPDATE 
                     " . $this->table_name ." 
                 SET 
-                    nama = :nama,
-                    alamat = :alamat,
-                    telp = :telp,
-                    fax = :fax,
-                    email = :email";
+                    judul = :judul,
+                    tanggal = :tanggal,
+                    gambar = :gambar,
+                    isi = :isi
+                WHERE 
+                    id = :id
+                ";
+        $this->res = $query;
         
         $stmt = $this->conn->prepare($query);
 
-        $this->nama=htmlspecialchars(strip_tags($this->nama));
-        $this->alamat=htmlspecialchars(strip_tags($this->alamat));
-        $this->telp=htmlspecialchars(strip_tags($this->telp));
-        $this->fax=htmlspecialchars(strip_tags($this->fax));
-        $this->email=htmlspecialchars(strip_tags($this->email));
+        $this->id=htmlspecialchars(strip_tags($this->id));
+        $this->judul=htmlspecialchars(strip_tags($this->judul));
+        $this->tanggal=htmlspecialchars(strip_tags($this->tanggal));
+        $this->gambar=htmlspecialchars(strip_tags($this->gambar));
+        $this->isi=htmlspecialchars(strip_tags($this->isi));
 
-        $stmt->bindParam(":nama", $this->nama);
-        $stmt->bindParam(":alamat", $this->alamat);
-        $stmt->bindParam(":telp", $this->telp);
-        $stmt->bindParam(":fax", $this->fax);
-        $stmt->bindParam(":email", $this->email);
+        $stmt->bindParam(":id", $this->id);
+        $stmt->bindParam(":judul", $this->judul);
+        $stmt->bindParam(":tanggal", $this->tanggal);
+        $stmt->bindParam(":gambar", $this->gambar);
+        $stmt->bindParam(":isi", $this->isi);
 
         if($stmt->execute()){
             return true;
@@ -45,12 +48,6 @@ class Artikel{
         }
 
     }
-
-    // id,
-    // judul,
-    // tanggal,
-    // gambar,
-    // isi,
 
     function readOne(){
         $query = "SELECT
@@ -85,6 +82,57 @@ class Artikel{
         $stmt->execute();
         $this->query = $query;
         return $stmt;
+    }
+
+    function create(){
+        // $max=getMax()+1;
+        $query = "INSERT INTO 
+                    ".$this->table_name." 
+                    (
+                    judul,
+                    tanggal,
+                    gambar,
+                    isi
+                    )
+                VALUES
+                    (
+                    :judul, 
+                    now(),
+                    :gambar,
+                    :isi
+                    ) 
+                ";
+        $stmt = $this->conn->prepare($query);
+
+        // $this->id=htmlspecialchars(strip_tags($this->id));
+        $this->judul=htmlspecialchars(strip_tags($this->judul));
+        // $this->tanggal=htmlspecialchars(strip_tags($this->tanggal));
+        $this->gambar=htmlspecialchars(strip_tags($this->gambar));
+        $this->isi=htmlspecialchars(strip_tags($this->isi));
+
+        // $stmt->bindParam(":id", $this->id);
+        $stmt->bindParam(":judul", $this->judul);
+        // $stmt->bindParam(":tanggal", $this->tanggal);
+        $stmt->bindParam(":gambar", $this->gambar);
+        $stmt->bindParam(":isi", $this->isi);
+
+        if($stmt->execute()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function getMax(){
+        $query = "SELECT
+                    max(id) as mx
+                FROM
+                    ".$this->table_name ."
+            ";
+        $stmt = $this->conn->prepare($query);    
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);    
+        return $row['mx'];
     }
 }
 ?>
