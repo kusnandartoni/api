@@ -98,37 +98,19 @@ class Siswa{
     }
 
     function update(){
-        $setup = '';
-        if(strlen($this->tpt_lahir)>0){
-            $setup .= " tpt_lahir = :tpt_lahir,";
-        }
-        if(strlen($this->agama)>0){
-            $setup .= " agama = :agama,";
-        }
-        if(strlen($this->alamat)>0){
-            $setup .= " alamat = :alamat,";
-        }
-        if(strlen($this->nama_ayah)>0){
-            $setup .= " nama_ayah = :nama_ayah,";
-        }
-        if(strlen($this->nama_ibu)>0){
-            $setup .= " nama_ibu = :nama_ibu,";
-        }
-        if(strlen($this->pekerjaan_ayah)>0){
-            $setup .= " pekerjaan_ayah = :pekerjaan_ayah,";
-        }
-        if(strlen($this->pekerjaan_ibu)>0){
-            $setup .= " pekerjaan_ibu = :pekerjaan_ibu,";
-        }
-        if(strlen($this->alamat_ortu)>0){
-            $setup .= " alamat_ortu = :alamat_ortu, ";
-        }
         $query = "UPDATE 
                     " . $this->table_name ." 
                 SET 
                     nama = :nama,
-                $setup
-                    tgl_lahir = :tgl_lahir
+                    tgl_lahir = :tgl_lahir,
+                    tpt_lahir = :tpt_lahir,
+                    agama = :agama,
+                    alamat = :alamat,
+                    nama_ayah = :nama_ayah,
+                    nama_ibu = :nama_ibu,
+                    pekerjaan_ayah = :pekerjaan_ayah,
+                    pekerjaan_ibu = :pekerjaan_ibu,
+                    alamat_ortu = :alamat_ortu
                 WHERE 
                     nisn = :nisn
                 ";
@@ -150,25 +132,44 @@ class Siswa{
         $stmt->bindParam(":nisn", $this->nisn);
         $stmt->bindParam(":nama", $this->nama);
         $stmt->bindParam(":tgl_lahir", $this->tgl_lahir);
-        if(
-            strlen($this->tpt_lahir)>0 ||
-            strlen($this->agama)>0 ||
-            strlen($this->alamat)>0 ||
-            strlen($this->nama_ayah)>0 ||
-            strlen($this->nama_ibu)>0 ||
-            strlen($this->pekerjaan_ayah)>0 ||
-            strlen($this->pekerjaan_ibu)>0 ||
-            strlen($this->alamat_ortu)>0
-        ){
-            $stmt->bindParam(":tpt_lahir", $this->tpt_lahir);
-            $stmt->bindParam(":agama", $this->agama);
-            $stmt->bindParam(":alamat", $this->alamat);
-            $stmt->bindParam(":nama_ayah", $this->nama_ayah);
-            $stmt->bindParam(":nama_ibu", $this->nama_ibu);
-            $stmt->bindParam(":pekerjaan_ayah", $this->pekerjaan_ayah);
-            $stmt->bindParam(":pekerjaan_ibu", $this->pekerjaan_ibu);
-            $stmt->bindParam(":alamat_ortu", $this->alamat_ortu);
+        $stmt->bindParam(":tpt_lahir", $this->tpt_lahir);
+        $stmt->bindParam(":agama", $this->agama);
+        $stmt->bindParam(":alamat", $this->alamat);
+        $stmt->bindParam(":nama_ayah", $this->nama_ayah);
+        $stmt->bindParam(":nama_ibu", $this->nama_ibu);
+        $stmt->bindParam(":pekerjaan_ayah", $this->pekerjaan_ayah);
+        $stmt->bindParam(":pekerjaan_ibu", $this->pekerjaan_ibu);
+        $stmt->bindParam(":alamat_ortu", $this->alamat_ortu);
+
+        if($stmt->execute()){
+            return true;
+        }else{
+            return false;
         }
+
+    }
+
+    function half_update(){
+        
+        $query = "UPDATE 
+                    " . $this->table_name ." 
+                SET 
+                    nama = :nama,
+                    tgl_lahir = :tgl_lahir
+                WHERE 
+                    nisn = :nisn
+                ";
+        
+        $stmt = $this->conn->prepare($query);
+
+        $this->nisn=htmlspecialchars(strip_tags($this->nisn));
+        $this->nama=htmlspecialchars(strip_tags($this->nama));
+        $this->tgl_lahir=htmlspecialchars(strip_tags($this->tgl_lahir));
+        
+        $stmt->bindParam(":nisn", $this->nisn);
+        $stmt->bindParam(":nama", $this->nama);
+        $stmt->bindParam(":tgl_lahir", $this->tgl_lahir);
+        
         if($stmt->execute()){
             return true;
         }else{
