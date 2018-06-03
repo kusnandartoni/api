@@ -33,10 +33,12 @@ class Siswa{
     function create(){
         $query = "INSERT INTO 
                     ".$this->table_name." 
-                    (nisn,nama,tgl_lahir)
-                VALUES
-                    (:nisn,:nama,:tgl_lahir) 
-                ";
+                  SET
+                    nisn=:nisn,
+                    nama=:nama,
+                    tgl_lahir=:tgl_lahir
+                  ";
+
         $stmt = $this->conn->prepare($query);
 
         $this->nisn=htmlspecialchars(strip_tags($this->nisn));
