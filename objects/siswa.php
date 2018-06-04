@@ -1,4 +1,4 @@
-<?
+<?php
 class Siswa{
     private $conn;
     private $table_name = "tb_siswa";
