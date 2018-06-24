@@ -8,6 +8,7 @@ class Kelas{
     public $kd_kelas;
     public $tahun_ajaran;
     public $semester;
+    public $errMsg;
 
     public function __construct($db){
         $this->conn = $db;
@@ -20,12 +21,15 @@ class Kelas{
                 ON (A.nisn = B.nisn)
                 WHERE A.tahun_ajaran = :tahun_ajaran
                 AND A.kd_kelas = :kd_kelas
+                AND A.semester = :semester
                     ";
         $stmt = $this->conn->prepare($query);
         $this->tahun_ajaran=htmlspecialchars(strip_tags($this->tahun_ajaran));
         $this->kd_kelas=htmlspecialchars(strip_tags($this->kd_kelas));
+        $this->semester=htmlspecialchars(strip_tags($this->semester));
         $stmt->bindParam(":tahun_ajaran", $this->tahun_ajaran);
         $stmt->bindParam(":kd_kelas", $this->kd_kelas);
+        $stmt->bindParam(":semester", $this->semester);
         $stmt->execute();
         return $stmt;
     }
@@ -66,8 +70,10 @@ class Kelas{
         $stmt->bindParam(":semester", $this->semester);
 
         if($stmt->execute()){
+            $this->errMsg = $stmt->errorInfo();
             return true;
         }else{
+            $this->errMsg = $stmt->errorInfo();
             return false;
         }
     }
@@ -89,6 +95,15 @@ class Kelas{
     }
 
     function readOne(){
+        $query = "SELECT
+                    DISTINCT(A.nisn) as nisn, B.nama as nama
+                FROM ".$this->table_name." A 
+                INNER JOIN tb_siswa B 
+                ON (A.nisn = B.nisn)
+                WHERE A.tahun_ajaran = :tahun_ajaran
+                AND A.kd_kelas = :kd_kelas
+                AND A.semester = :semester
+            ";
         // $query = "SELECT
         //             nisn,nama,tgl_lahir,tpt_lahir,agama,alamat,nama_ayah,nama_ibu,pekerjaan_ayah,pekerjaan_ibu,alamat_ortu
         //         FROM

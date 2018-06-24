@@ -18,6 +18,7 @@
     $data = json_decode(file_get_contents("php://input"));
     $kelas->kd_kelas = $data->kd_kelas; 
     $kelas->tahun_ajaran = $data->tahun_ajaran; 
+    $kelas->semester = $data->semester; 
     // echo $kelas->kd_kelas;
     // echo $kelas->tahun_ajaran;
     $stmt = $kelas->readSiswaInClass();

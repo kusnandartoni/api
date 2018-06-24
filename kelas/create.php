@@ -32,14 +32,16 @@
             echo json_encode(
                 array(
                     "result"=>"1",
-                    "message"=>"Berhasil tambah data"
+                    "message"=>"Berhasil tambah data",
+                    "errMessage"=>$kelas->errMsg[1]
                     )
             );
         }else{
             echo json_encode(
                 array(
                     "result"=>"0",
-                    "message"=>"Gagal tambah data"
+                    "message"=>"Gagal tambah data",
+                    "errMessage"=>$kelas->errMsg[1]
                     )
             );
         }
