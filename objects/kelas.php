@@ -8,6 +8,9 @@ class Kelas{
     public $kd_kelas;
     public $tahun_ajaran;
     public $semester;
+
+    public $nama;
+    public $kelas;
     public $errMsg;
 
     public function __construct($db){
@@ -33,6 +36,7 @@ class Kelas{
         $stmt->execute();
         return $stmt;
     }
+    
     function read(){
         // $query = "SELECT
         //             nisn,nama,tgl_lahir,tpt_lahir,agama,alamat,nama_ayah,nama_ibu,pekerjaan_ayah,pekerjaan_ibu,alamat_ortu
@@ -79,55 +83,46 @@ class Kelas{
     }
 
     function delete(){
-        // $query = "DELETE FROM
-        //             ".$this->table_name." 
-        //           WHERE nisn =:nisn 
-        //         ";
-        // $stmt = $this->conn->prepare($query);
-        // $this->nisn=htmlspecialchars(strip_tags($this->nisn));
-        // $stmt->bindParam(":nisn", $this->nisn);
+        $query = "DELETE FROM
+                    ".$this->table_name." 
+                  WHERE nisn =:nisn 
+                  AND periode =:periode
+                ";
+        $stmt = $this->conn->prepare($query);
+        $this->nisn=htmlspecialchars(strip_tags($this->nisn));
+        $this->periode=htmlspecialchars(strip_tags($this->periode));        
+        $stmt->bindParam(":periode", $this->periode);
+        $stmt->bindParam(":nisn", $this->nisn);
 
-        // if($stmt->execute()){
-        //     return true;
-        // }else{
-        //     return false;
-        // }
+        if($stmt->execute()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     function readOne(){
         $query = "SELECT
-                    DISTINCT(A.nisn) as nisn, B.nama as nama
+                     A.nisn as nisn, B.nama as nama, A.kd_kelas as kelas
                 FROM ".$this->table_name." A 
                 INNER JOIN tb_siswa B 
                 ON (A.nisn = B.nisn)
-                WHERE A.tahun_ajaran = :tahun_ajaran
-                AND A.kd_kelas = :kd_kelas
-                AND A.semester = :semester
+                WHERE A.periode = :periode
+                AND A.nisn = :nisn
             ";
-        // $query = "SELECT
-        //             nisn,nama,tgl_lahir,tpt_lahir,agama,alamat,nama_ayah,nama_ibu,pekerjaan_ayah,pekerjaan_ibu,alamat_ortu
-        //         FROM
-        //             ".$this->table_name ." 
-        //         WHERE nisn = :nisn
-        //     ";
-        // $stmt = $this->conn->prepare($query);
-        // $this->nisn=htmlspecialchars(strip_tags($this->nisn));        
-        // $stmt->bindParam(":nisn", $this->nisn);
-        
-        // $stmt->execute();
-        // $row = $stmt->fetch(PDO::FETCH_ASSOC);    
 
-        // $this->nisn=$row['nisn'];
-        // $this->nama=$row['nama'];
-        // $this->tgl_lahir=$row['tgl_lahir'];
-        // $this->tpt_lahir=$row['tpt_lahir'];
-        // $this->agama=$row['agama'];
-        // $this->alamat=$row['alamat'];
-        // $this->nama_ayah=$row['nama_ayah'];
-        // $this->nama_ibu=$row['nama_ibu'];
-        // $this->pekerjaan_ayah=$row['pekerjaan_ayah'];
-        // $this->pekerjaan_ibu=$row['pekerjaan_ibu'];
-        // $this->alamat_ortu=$row['alamat_ortu'];
+        $stmt = $this->conn->prepare($query);
+        $this->nisn=htmlspecialchars(strip_tags($this->nisn));        
+        $this->periode=htmlspecialchars(strip_tags($this->periode));        
+        $stmt->bindParam(":nisn", $this->nisn);
+        $stmt->bindParam(":periode", $this->periode);
+        
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);    
+
+        $this->nisn=$row['nisn'];
+        $this->nama=$row['nama'];
+        $this->kelas=$row['kelas'];
     }
 
     function update(){

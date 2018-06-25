@@ -41,7 +41,7 @@
                 array(
                     "result"=>"0",
                     "message"=>"Gagal tambah data",
-                    "errMessage"=>$kelas->errMsg[1]
+                    "errMessage"=>$kelas->errMsg
                     )
             );
         }
