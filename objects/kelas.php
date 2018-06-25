@@ -126,54 +126,30 @@ class Kelas{
     }
 
     function update(){
-        // $query = "UPDATE 
-        //             " . $this->table_name ." 
-        //         SET 
-        //             nama = :nama,
-        //             tgl_lahir = :tgl_lahir,
-        //             tpt_lahir = :tpt_lahir,
-        //             agama = :agama,
-        //             alamat = :alamat,
-        //             nama_ayah = :nama_ayah,
-        //             nama_ibu = :nama_ibu,
-        //             pekerjaan_ayah = :pekerjaan_ayah,
-        //             pekerjaan_ibu = :pekerjaan_ibu,
-        //             alamat_ortu = :alamat_ortu
-        //         WHERE 
-        //             nisn = :nisn
-        //         ";
+        $query = "UPDATE 
+                    " . $this->table_name ." 
+                SET 
+                    kd_kelas = :kd_kelas
+                WHERE 
+                    nisn = :nisn
+                AND periode =:periode
+                ";
         
-        // $stmt = $this->conn->prepare($query);
+        $stmt = $this->conn->prepare($query);
 
-        // $this->nisn=htmlspecialchars(strip_tags($this->nisn));
-        // $this->nama=htmlspecialchars(strip_tags($this->nama));
-        // $this->tgl_lahir=htmlspecialchars(strip_tags($this->tgl_lahir));
-        // $this->tpt_lahir=htmlspecialchars(strip_tags($this->tpt_lahir));
-        // $this->agama=htmlspecialchars(strip_tags($this->agama));
-        // $this->alamat=htmlspecialchars(strip_tags($this->alamat));
-        // $this->nama_ayah=htmlspecialchars(strip_tags($this->nama_ayah));
-        // $this->nama_ibu=htmlspecialchars(strip_tags($this->nama_ibu));
-        // $this->pekerjaan_ayah=htmlspecialchars(strip_tags($this->pekerjaan_ayah));
-        // $this->pekerjaan_ibu=htmlspecialchars(strip_tags($this->pekerjaan_ibu));
-        // $this->alamat_ortu=htmlspecialchars(strip_tags($this->alamat_ortu));
+        $this->nisn=htmlspecialchars(strip_tags($this->nisn));
+        $this->periode=htmlspecialchars(strip_tags($this->periode));
+        $this->kd_kelas=htmlspecialchars(strip_tags($this->kd_kelas));
 
-        // $stmt->bindParam(":nisn", $this->nisn);
-        // $stmt->bindParam(":nama", $this->nama);
-        // $stmt->bindParam(":tgl_lahir", $this->tgl_lahir);
-        // $stmt->bindParam(":tpt_lahir", $this->tpt_lahir);
-        // $stmt->bindParam(":agama", $this->agama);
-        // $stmt->bindParam(":alamat", $this->alamat);
-        // $stmt->bindParam(":nama_ayah", $this->nama_ayah);
-        // $stmt->bindParam(":nama_ibu", $this->nama_ibu);
-        // $stmt->bindParam(":pekerjaan_ayah", $this->pekerjaan_ayah);
-        // $stmt->bindParam(":pekerjaan_ibu", $this->pekerjaan_ibu);
-        // $stmt->bindParam(":alamat_ortu", $this->alamat_ortu);
+        $stmt->bindParam(":nisn", $this->nisn);
+        $stmt->bindParam(":kd_kelas", $this->kd_kelas);
+        $stmt->bindParam(":periode", $this->periode);
 
-        // if($stmt->execute()){
-        //     return true;
-        // }else{
-        //     return false;
-        // }
+        if($stmt->execute()){
+            return true;
+        }else{
+            return false;
+        }
 
     }
 
