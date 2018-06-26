@@ -136,7 +136,7 @@ class Kelas{
                 ";
         
         $stmt = $this->conn->prepare($query);
-
+        $this->errMsg = $query;
         $this->nisn=htmlspecialchars(strip_tags($this->nisn));
         $this->periode=htmlspecialchars(strip_tags($this->periode));
         $this->kd_kelas=htmlspecialchars(strip_tags($this->kd_kelas));
