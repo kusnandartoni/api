@@ -73,7 +73,35 @@ class Nilai{
         return $stmt;
    } 
 
-  function create(){
+    function readPerSiswa(){
+        $sql = "SELECT
+            B.nama_pelajaran AS mapel, A.kkm AS kkm, A.nilai as nilai
+            FROM ".$this->table_name." A
+            INNER JOIN tb_pelajaran B 
+            ON (A.kd_pelajaran=B.kd_pelajaran) 
+            WHERE A.nisn = :nisn
+            AND A.periode = :periode
+            UNION
+            SELECT D.nama_pelajaran as mapel, '0' as kkm, '0' as nilai 
+            FROM tb_pelajaran D
+            WHERE D.kd_pelajaran not in
+                (SELECT C.kd_pelajaran 
+                FROM ".$this->table_name." C
+                Where C.nisn = :nisn 
+                AND C.periode = :periode)
+        ";
+        $this->errMsg=$sql;
+        $stmt = $this->conn->prepare($sql);
+        $this->periode=htmlspecialchars(strip_tags($this->periode));
+        $this->nisn=htmlspecialchars(strip_tags($this->nisn));
+        $stmt->bindParam("nisn", $this->nisn);
+        $stmt->bindParam("periode", $this->periode);
+        $stmt->execute();
+        return $stmt;
+    }
+   
+
+   function create(){
     $query = "INSERT INTO 
             ".$this->table_name." 
         SET
